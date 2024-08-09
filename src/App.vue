@@ -1,7 +1,7 @@
 <template>
   <div class="bg-slate-200 h-screen flex justify-center">
     <div
-      class="bg-white rounded-md shadow-md min-w-full h-52 p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
+      class="bg-white rounded-md shadow-md min-w-full h-72 p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
       <div class="sm:col-span-4 text-center text-2xl">EndPoint Config</div>
       <div class="sm:col-span-1"></div>
@@ -35,12 +35,36 @@
       </div>
 
       <!-- Endpint details -->
-      <div class="sm:col-span-4 flex justify-center text-xl mt-6">
-        <Badge
-          :class="getClass(endpointDetails.method)"
-          :text="endpointDetails.method"
-        ></Badge>
-        {{ `${endpointDetails.title} ${endpointDetails.path}` }}
+      <div class="sm:col-span-4 grid grid-cols-2 text-xl mt-6">
+        <label
+          for="method"
+          class="block col-span-1 text-end mr-3 text-sm font-bold leading-6"
+          >Method:</label
+        >
+        <div class="col-span-1">
+          <Badge
+            id="method"
+            class="col-span-1"
+            :class="getClass(endpointDetails.method)"
+            :text="endpointDetails.method"
+          ></Badge>
+        </div>
+
+        <label
+          for="apiName"
+          class="block col-span-1 text-sm text-end mr-3 font-bold leading-6"
+          >API Name:</label
+        >
+        <span id="apiName" class="col-span-1">{{ endpointDetails.title }}</span>
+
+        <label
+          for="apiName"
+          class="block col-span-1 text-end mr-3 text-sm font-bold leading-6"
+          >API Path:</label
+        >
+        <span id="apiName" class="col-span-1 text-sm">{{
+          endpointDetails.path
+        }}</span>
       </div>
     </div>
     <!-- Main Content -->
