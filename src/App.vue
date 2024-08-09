@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-slate-200 h-screen">
+  <div class="bg-slate-200 h-full">
     <div
-      class="bg-gray-100 rounded-md shadow-md min-w-full h-72 p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
+      class="bg-gray-100 rounded-md shadow-md min-w-full p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
       <div class="sm:col-span-4 text-center text-2xl">EndPoint Config</div>
       <div class="sm:col-span-1"></div>
@@ -71,7 +71,7 @@
           endpointDetails.path
         }}</span>
 
-        <div class="col-span-1 flex justify-end">
+        <div class="col-span-2 flex justify-center">
           <button
             type="button"
             class="flex items-center rounded-md px-4 py-1.5 text-sm font-medium text-green-900 bg-green-200 duration-400 hover:bg-green-300 hover:shadow-lg"
@@ -269,6 +269,7 @@ const getClass = (text) => {
 // bg-orange-400 bg-orange-800
 // bg-indigo-400 bg-indigo-800
 // bg-gray-400 bg-gray-800
+// bg-red-400 bg-red-800
 </script>
 
 <style scoped></style>
