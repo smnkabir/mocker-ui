@@ -218,12 +218,15 @@ const updateResStatus = (res) => {
 
 const saveNewRes = () => {
   let req = Object.assign({}, newRes.value, {
-    endpointId: selectedEndpoint.value.id,
+    endPointId: selectedEndpoint.value.id,
   });
 
-  req.res = JSON.stringify(req.res);
+  let obj = JSON.parse(req.res);
+  console.log(obj);
+  req.res = JSON.stringify(obj);
   EndPointService.addNewRes(req).then((res) => {
     getEndpointDetails(selectedEndpoint.value.id);
+    closeModal();
   });
 };
 
