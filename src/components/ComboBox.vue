@@ -2,17 +2,17 @@
   <Combobox v-model="selected" :multiple="multiple">
     <div ref="comboboxWrapper" class="relative mt-1">
       <div
-        class="relative w-full cursor-default overflow-hidden rounded-lg bg-accent text-left shadow-md sm:text-sm"
+        class="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md sm:text-sm"
       >
         <ComboboxInput
-          class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 focus:ring-0"
+          class="w-full border-none py-2 pl-3 pr-10 text-sm font-semibold leading-5"
           :display-value="displayValue"
           @change="query = $event.target.value"
         />
         <ComboboxButton
           class="absolute inset-y-0 right-0 flex items-center pr-2"
         >
-          <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <ChevronUpDownIcon class="h-5 w-5 text-gray-700" aria-hidden="true" />
         </ComboboxButton>
       </div>
       <TransitionRoot
@@ -24,7 +24,7 @@
         <ComboboxOptions
           ref="comboboxOptions"
           :class="optionsClass"
-          class="z-30 max-h-60 w-full overflow-auto rounded-md bg-background py-1 text-base shadow-lg ring-1 sm:text-sm"
+          class="z-30 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 sm:text-sm"
         >
           <div
             v-if="filteredItem.length === 0 && query !== ''"
