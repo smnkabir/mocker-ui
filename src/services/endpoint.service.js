@@ -1,7 +1,7 @@
 import http from "@/assets/httpConfig";
 
 const API_ENDPOINT_LIST_URL = "/api/config";
-const API_ENDPOINT_RES_UPDATE_URL = "/api/config/response";
+const API_ENDPOINT_RES_URL = "/api/config/response";
 
 class EndPoinService {
   async getEndpointList() {
@@ -15,7 +15,12 @@ class EndPoinService {
   }
 
   async updateResStatus(req) {
-    const res = await http.put(API_ENDPOINT_RES_UPDATE_URL, req);
+    const res = await http.put(API_ENDPOINT_RES_URL, req);
+    return res.data;
+  }
+
+  async addNewRes(req) {
+    const res = await http.post(API_ENDPOINT_RES_URL, req);
     return res.data;
   }
 }

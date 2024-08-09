@@ -14,7 +14,9 @@
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center">
+        <div
+          class="flex min-h-full items-center justify-center p-4 text-center"
+        >
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -26,7 +28,7 @@
           >
             <DialogPanel
               :class="width"
-              class="w-full transform overflow-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <DialogTitle as="h3" class="text-lg font-medium leading-6">
                 {{ title }}
@@ -59,30 +61,36 @@
 </template>
 
 <script setup>
-import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/vue";
 
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(["closeModal"]);
 
 const props = defineProps({
   isOpen: {
     type: Boolean,
-    required: true
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: [String, Object],
-    required: true
+    required: true,
   },
   width: {
     type: String,
-    default: 'max-w-sm'
-  }
-})
+    default: "max-w-sm",
+  },
+});
 
 const closeModal = () => {
-  emit('closeModal')
-}
+  emit("closeModal");
+};
 </script>
