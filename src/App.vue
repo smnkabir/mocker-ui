@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-200 h-screen flex justify-center">
+  <div class="bg-slate-200 h-screen">
     <div
       class="bg-white rounded-md shadow-md min-w-full h-72 p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
@@ -35,7 +35,10 @@
       </div>
 
       <!-- Endpint details -->
-      <div class="sm:col-span-4 grid grid-cols-2 text-xl mt-6">
+      <div
+        v-if="Object.keys(endpointDetails).length > 0"
+        class="sm:col-span-4 grid grid-cols-2 mt-6"
+      >
         <label
           for="method"
           class="block col-span-1 text-end mr-3 text-sm font-bold leading-6"
@@ -68,7 +71,38 @@
       </div>
     </div>
     <!-- Main Content -->
-    <div></div>
+    <div
+      class="m-5 rounded-md bg-white grid grid-cols-7 shadow-md"
+      v-for="(res, idx) in endpointDetails.responseList"
+    >
+      <div class="col-span-1 flex justify-center">
+        <input
+          :id="`status`"
+          v-model="res.status"
+          class="m-1 cursor-pointer"
+          type="checkbox"
+          true-value="1"
+          false-value="0"
+          @click="updateResStatus(res)"
+        />
+      </div>
+      <div class="col-span-1 flex items-center justify-center">
+        <Badge
+          :text="res.statusCode + ''"
+          :class="getClass(res.statusCode)"
+        ></Badge>
+      </div>
+      <div class="col-span-5 flex justify-center">
+        <textarea
+          :id="`res${idx}`"
+          v-model="res.res"
+          name="res"
+          rows="3"
+          class="block w-full rounded-md border bg-gray-200 m-2 p-1.5 sm:text-sm sm:leading-6"
+          disabled
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -103,13 +137,29 @@ const getEndpointDetails = (id) => {
   });
 };
 
+const updateResStatus = (res) => {
+  console.log(res);
+  if (res.status == 0) {
+    let req = { endpointId: res.endPointId, resId: res.id };
+    EndPointService.updateResStatus(req).then((res) => {
+      getEndpointDetails(selectedEndpoint.value.id);
+    });
+  }
+};
+
 const getClass = (text) => {
   let color;
   switch (text) {
     case "GET":
       color = "green";
       break;
+    case 200:
+      color = "green";
+      break;
     case "POST":
+      color = "orange";
+      break;
+    case 400:
       color = "orange";
       break;
     case "PUT":
@@ -118,10 +168,11 @@ const getClass = (text) => {
     case "DELETE":
       color = "red";
       break;
+    case 500:
+      color = "red";
+      break;
     default:
       color = "gray";
-
-      return color;
   }
   return `bg-${color}-400 text-${color}-800`;
 };
