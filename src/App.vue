@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-200 sm:px-40 h-full min-h-screen">
+  <div class="bg-slate-200 sm:px-40 h-full min-h-screen pb-5">
     <div
       class="bg-gray-100 rounded-md shadow-md min-w-full p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
@@ -85,7 +85,7 @@
     </div>
     <!-- Main Content -->
     <div
-      class="my-5 rounded-md bg-gray-100 grid grid-cols-7 shadow-md"
+      class="my-5 rounded-md bg-gray-100 grid grid-cols-7 shadow-md last:mb-0"
       v-for="(res, idx) in endpointDetails.responseList"
     >
       <div class="col-span-1 flex justify-center">
