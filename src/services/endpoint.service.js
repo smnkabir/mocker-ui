@@ -23,6 +23,11 @@ class EndPoinService {
     const res = await http.post(API_ENDPOINT_RES_URL, req);
     return res.data;
   }
+
+  async saveNewEndPiont(req) {
+    const res = await http.post(API_ENDPOINT_LIST_URL, req);
+    return res.data;
+  }
 }
 
 export default new EndPoinService();

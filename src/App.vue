@@ -27,7 +27,7 @@
         <button
           type="button"
           class="flex items-center h-12 rounded-md px-4 py-1.5 text-sm font-medium text-green-900 bg-green-200 duration-400 hover:bg-green-300 hover:shadow-lg"
-          @click="showModal"
+          @click="showNewEnpointModal = true"
         >
           <PlusCircleIcon class="mr-2 h-5 w-5" />
           <span>Add New</span>
@@ -75,7 +75,7 @@
           <button
             type="button"
             class="flex items-center rounded-md px-4 py-1.5 text-sm font-medium text-green-900 bg-green-200 duration-400 hover:bg-green-300 hover:shadow-lg"
-            @click="showNewResModal = !showNewResModal"
+            @click="showNewResModal = true"
           >
             <PlusCircleIcon class="mr-2 h-5 w-5" />
             <span>New Res</span>
@@ -120,30 +120,30 @@
   <!-- Add res Modal -->
   <Modal
     :is-open="showNewResModal"
-    width="max-w-2xl"
+    width="max-w-lg"
     title="Add New Response"
     :content="newRes"
     @close-modal="closeModal"
   >
     <template #content="{ content }">
-      <div class="grid grid-cols-2 gap-4 whitespace-normal">
-        <div class="flex text-left text-sm tracking-wide">
+      <div class="grid grid-cols-1 gap-4 whitespace-normal">
+        <div class="text-left text-sm tracking-wide">
           <p class="p-1 font-semibold">Status code:</p>
           <ComboBox
-            id="endpoint"
+            id="statusCode"
             v-model="content.statusCode"
             class="w-100 mr-2"
             :options="statusCodeList"
           />
         </div>
 
-        <div class="flex text-left text-sm tracking-wide">
+        <div class="text-left text-sm tracking-wide">
           <p class="p-1 font-semibold">Response Body:</p>
           <textarea
             id="about"
             v-model="content.res"
             name="about"
-            rows="3"
+            rows="5"
             class="block w-full rounded-md border-1 border-gray-500 bg-gray-200 p-1.5 shadow-sm sm:text-sm sm:leading-6"
           />
         </div>
@@ -159,8 +159,67 @@
       </button>
       <button
         type="button"
-        class="mr-4 inline-flex justify-center rounded-md bg-accent px-4 py-1.5 text-sm font-medium text-accent-foreground duration-300 hover:bg-indigo-200 hover:shadow-lg"
+        class="mr-4 inline-flex justify-center rounded-md px-4 py-1.5 text-sm font-medium duration-300 text-green-900 bg-green-200 duration-400 hover:bg-green-300 hover:shadow-lg"
         @click="saveNewRes"
+      >
+        Save
+      </button>
+    </template>
+  </Modal>
+
+  <!-- Add New Endpoint Modal -->
+  <Modal
+    :is-open="showNewEnpointModal"
+    width="max-w-lg"
+    title="Add New EndPoint"
+    :content="newEndPoint"
+    @close-modal="closeModal"
+  >
+    <template #content="{ content }">
+      <div class="grid grid-cols-1 gap-4 whitespace-normal">
+        <div class="text-left text-sm tracking-wide">
+          <p class="p-1 font-semibold">Method:</p>
+          <ComboBox
+            id="method"
+            v-model="content.method"
+            class="w-100 mr-2"
+            :options="methodList"
+          />
+        </div>
+
+        <div class="text-left text-sm tracking-wide">
+          <p class="p-1 font-semibold">Title:</p>
+          <input
+            id="title"
+            v-model="content.title"
+            name="title"
+            class="block w-full rounded-md border-1 border-gray-500 bg-gray-200 p-1.5 shadow-sm sm:text-sm sm:leading-6"
+          />
+        </div>
+
+        <div class="text-left text-sm tracking-wide">
+          <p class="p-1 font-semibold">Path:</p>
+          <input
+            id="path"
+            v-model="content.path"
+            name="path"
+            class="block w-full rounded-md border-1 border-gray-500 bg-gray-200 p-1.5 shadow-sm sm:text-sm sm:leading-6"
+          />
+        </div>
+      </div>
+    </template>
+    <template #action>
+      <button
+        type="button"
+        class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        @click="closeModal"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="mr-4 inline-flex justify-center rounded-md px-4 py-1.5 text-sm font-medium text-accent-foreground text-green-900 bg-green-200 duration-400 hover:bg-green-300 hover:shadow-lg"
+        @click="saveNewEndPiont"
       >
         Save
       </button>
@@ -181,6 +240,8 @@ const newRes = ref({});
 const statusCodeList = [200, 400, 500];
 
 const showNewEnpointModal = ref(false);
+const newEndPoint = ref({});
+const methodList = ["GET", "POST", "PUT", "DELETE"];
 
 const endpointList = ref([]);
 const selectedEndpoint = ref(endpointList.value[0]);
@@ -230,9 +291,18 @@ const saveNewRes = () => {
   });
 };
 
+const saveNewEndPiont = () => {
+  EndPointService.saveNewEndPiont(newEndPoint.value).then((res) => {
+    getEndpoints();
+    closeModal();
+  });
+};
+
 const closeModal = () => {
   showNewResModal.value = false;
+  showNewEnpointModal.value = false;
   newRes.value = {};
+  newEndPoint.value = {};
 };
 
 const getClass = (text) => {
