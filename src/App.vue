@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-200 sm:px-40 h-full min-h-screen pb-5">
+  <div class="bg-slate-200 p-3 sm:px-40 h-full min-h-screen">
     <div
       class="bg-gray-100 rounded-md shadow-md min-w-full p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
@@ -85,7 +85,7 @@
     </div>
     <!-- Main Content -->
     <div
-      class="my-5 rounded-md bg-gray-100 grid grid-cols-7 shadow-md last:mb-0"
+      class="my-5 rounded-md bg-gray-100 grid grid-cols-10 shadow-md last:mb-0"
       v-for="(res, idx) in endpointDetails.responseList"
     >
       <div class="col-span-1 flex justify-center">
@@ -105,7 +105,7 @@
           :class="getClass(res.statusCode)"
         ></Badge>
       </div>
-      <div class="col-span-5 flex justify-center">
+      <div class="col-span-7 flex justify-center">
         <textarea
           :id="`res${idx}`"
           v-model="res.res"
@@ -113,6 +113,12 @@
           rows="8"
           class="block w-full rounded-md border bg-gray-200 m-2 p-1.5 sm:text-sm sm:leading-6"
           disabled
+        />
+      </div>
+      <div class="col-span-1 flex items-center justify-center">
+        <XCircleIcon
+          class="w-6 h-6 cursor-pointer m-5 text-red-500"
+          @click="removeRes(res, idx)"
         />
       </div>
     </div>
@@ -225,6 +231,13 @@
       </button>
     </template>
   </Modal>
+  <!-- Alert -->
+  <Alert
+    :show="showAlert"
+    :success="isSuccess"
+    :title="title"
+    @close-alert="closeAlert"
+  />
 </template>
 
 <script setup>
@@ -232,7 +245,8 @@ import { watch, ref, onMounted } from "vue";
 import ComboBox from "@/components/ComboBox.vue";
 import Modal from "@/components/Modal.vue";
 import Badge from "@/components/Badge.vue";
-import { PlusCircleIcon } from "@heroicons/vue/24/outline";
+import Alert from "@/components/Alert.vue";
+import { PlusCircleIcon, XCircleIcon } from "@heroicons/vue/24/outline";
 import EndPointService from "@/services/endpoint.service.js";
 
 const showNewResModal = ref(false);
@@ -246,6 +260,10 @@ const methodList = ["GET", "POST", "PUT", "DELETE"];
 const endpointList = ref([]);
 const selectedEndpoint = ref(endpointList.value[0]);
 const endpointDetails = ref({});
+
+const showAlert = ref(false);
+const isSuccess = ref(true);
+const title = ref("");
 
 onMounted(() => {
   getEndpoints();
@@ -273,8 +291,13 @@ const updateResStatus = (res) => {
     let req = { endpointId: res.endPointId, resId: res.id };
     EndPointService.updateResStatus(req).then((res) => {
       getEndpointDetails(selectedEndpoint.value.id);
+      showAlertAction(true, res);
     });
   }
+};
+
+const removeRes = (res, idx) => {
+  endpointDetails.value.responseList.splice(idx, 1);
 };
 
 const saveNewRes = () => {
@@ -288,14 +311,21 @@ const saveNewRes = () => {
   EndPointService.addNewRes(req).then((res) => {
     getEndpointDetails(selectedEndpoint.value.id);
     closeModal();
+    showAlertAction(true, res);
   });
 };
 
 const saveNewEndPiont = () => {
-  EndPointService.saveNewEndPiont(newEndPoint.value).then((res) => {
-    getEndpoints();
-    closeModal();
-  });
+  EndPointService.saveNewEndPiont(newEndPoint.value).then(
+    (res) => {
+      getEndpoints();
+      closeModal();
+      showAlertAction(true, res);
+    },
+    (err) => {
+      showAlertAction(false, res);
+    }
+  );
 };
 
 const closeModal = () => {
@@ -303,6 +333,19 @@ const closeModal = () => {
   showNewEnpointModal.value = false;
   newRes.value = {};
   newEndPoint.value = {};
+};
+
+const showAlertAction = (success, msg) => {
+  showAlert.value = true;
+  isSuccess.value = success;
+  title.value = msg;
+  setTimeout(() => {
+    closeAlert();
+  }, 5000);
+};
+
+const closeAlert = () => {
+  showAlert.value = false;
 };
 
 const getClass = (text) => {
