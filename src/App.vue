@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-200 h-full">
+  <div class="bg-slate-200 sm:px-40 h-full min-h-screen">
     <div
       class="bg-gray-100 rounded-md shadow-md min-w-full p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4"
     >
@@ -85,7 +85,7 @@
     </div>
     <!-- Main Content -->
     <div
-      class="m-5 rounded-md bg-gray-100 grid grid-cols-7 shadow-md"
+      class="my-5 rounded-md bg-gray-100 grid grid-cols-7 shadow-md"
       v-for="(res, idx) in endpointDetails.responseList"
     >
       <div class="col-span-1 flex justify-center">
@@ -110,7 +110,7 @@
           :id="`res${idx}`"
           v-model="res.res"
           name="res"
-          rows="3"
+          rows="8"
           class="block w-full rounded-md border bg-gray-200 m-2 p-1.5 sm:text-sm sm:leading-6"
           disabled
         />
