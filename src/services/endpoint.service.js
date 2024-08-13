@@ -24,6 +24,11 @@ class EndPoinService {
     return res.data;
   }
 
+  async removeRes(req) {
+    const res = await http.delete(API_ENDPOINT_RES_URL, { data: req });
+    return res.data;
+  }
+
   async saveNewEndPiont(req) {
     const res = await http.post(API_ENDPOINT_LIST_URL, req);
     return res.data;

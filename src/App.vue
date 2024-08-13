@@ -297,7 +297,14 @@ const updateResStatus = (res) => {
 };
 
 const removeRes = (res, idx) => {
+  if (res.status == 1) {
+    showAlertAction(false, "Active Response can not be removed");
+    return;
+  }
   endpointDetails.value.responseList.splice(idx, 1);
+  EndPointService.removeRes({ resId: res.id }).then((res) => {
+    showAlertAction(true, res);
+  });
 };
 
 const saveNewRes = () => {
