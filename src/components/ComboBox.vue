@@ -10,7 +10,7 @@
           @change="query = $event.target.value"
         />
         <ComboboxButton
-          class="absolute inset-y-0 right-0 flex items-center pr-2"
+          class="absolute bg-transparent inset-y-0 right-0 flex items-center pr-2"
         >
           <ChevronUpDownIcon class="h-5 w-5 text-gray-700" aria-hidden="true" />
         </ComboboxButton>
